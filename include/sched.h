@@ -1,0 +1,92 @@
+#ifndef UK_LIBNEWLIBC_GLUE_SCHED
+#define UK_LIBNEWLIBC_GLUE_SCHED
+
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
+/* Scheduling algorithms.  */
+#define _SCHED_H 1
+#define SCHED_OTHER	0
+#define SCHED_FIFO	1
+#define SCHED_RR	2
+
+/* Data structure to describe a process' schedulability.  */
+
+// struct sched_param
+// {
+//   int sched_priority;
+// };
+
+#if !defined __defined_schedparam \
+  && (defined __need_schedparam || defined _SCHED_H)
+# define __defined_schedparam   1
+/* Data structure to describe a process' schedulability.  */
+// struct __sched_param
+// {
+//   int __sched_priority;
+// };
+# undef __need_schedparam
+#endif
+
+#if defined _SCHED_H && !defined __cpu_set_t_defined
+# define __cpu_set_t_defined
+/* Size definition for CPU sets.  */
+# define __CPU_SETSIZE  1024
+# define __NCPUBITS (8 * sizeof (__cpu_mask))
+
+/* Type for array elements in 'cpu_set_t'.  */
+typedef unsigned long int __cpu_mask;
+
+/* Basic access functions.  */
+# define __CPUELT(cpu)  ((cpu) / __NCPUBITS)
+# define __CPUMASK(cpu) ((__cpu_mask) 1 << ((cpu) % __NCPUBITS))
+
+/* Data structure to describe CPU mask.  */
+typedef struct
+{
+  __cpu_mask __bits[__CPU_SETSIZE / __NCPUBITS];
+} cpu_set_t;
+#endif
+#define CSIGNAL         0x000000ff
+
+#define CLONE_VM      0x00000100 /* Set if VM shared between processes.  */
+#define CLONE_FS      0x00000200 /* Set if fs info shared between processes.  */
+#define CLONE_FILES   0x00000400 /* Set if open files shared between processes.  */
+#define CLONE_SIGHAND 0x00000800 /* Set if signal handlers shared.  */
+#define CLONE_PTRACE  0x00002000 /* Set if tracing continues on the child.  */
+#define CLONE_VFORK   0x00004000 /* Set if the parent wants the child to
+                                     wake it up on mm_release.  */
+#define CLONE_PARENT  0x00008000 /* Set if we want to have the same
+                                     parent as the cloner.  */
+#define CLONE_THREAD  0x00010000 /* Set to add to same thread group.  */
+#define CLONE_NEWNS   0x00020000 /* Set to create new namespace.  */
+#define CLONE_SYSVSEM 0x00040000 /* Set to shared SVID SEM_UNDO semantics.  */
+#define CLONE_SETTLS  0x00080000 /* Set TLS info.  */
+#define CLONE_PARENT_SETTID 0x00100000 /* Store TID in userlevel buffer
+                                           before MM copy.  */
+#define CLONE_CHILD_CLEARTID 0x00200000 /* Register exit futex and memory
+                                            location to clear.  */
+#define CLONE_DETACHED 0x00400000 /* Create clone detached.  */
+#define CLONE_UNTRACED 0x00800000 /* Set if the tracing process can't
+                                      force CLONE_PTRACE on this clone.  */
+#define CLONE_CHILD_SETTID 0x01000000 /* Store TID in userlevel buffer in
+                                          the child.  */
+#define CLONE_NEWUTS   0x04000000      /* New utsname group.  */
+#define CLONE_NEWIPC   0x08000000      /* New ipcs.  */
+#define CLONE_NEWUSER  0x10000000      /* New user namespace.  */
+#define CLONE_NEWPID   0x20000000      /* New pid namespace.  */
+#define CLONE_NEWNET   0x40000000      /* New network namespace.  */
+#define CLONE_IO       0x80000000      /* Clone I/O context.  */
+
+#define CPU_SETSIZE 1024
+
+int sched_getcpu(void);
+
+# define CPU_SET(cpu, cpusetp)		0
+# define CPU_ISSET(cpu, cpusetp)	0
+# define CPU_ZERO(cpusetp)			0
+
+__END_DECLS
+
+#endif /* UK_LIBNEWLIBC_GLUE_SCHED */

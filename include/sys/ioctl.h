@@ -33,6 +33,7 @@
  *
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
+#
 
 struct winsize {
 	unsigned short ws_row;
@@ -40,3 +41,4 @@ struct winsize {
 	unsigned short ws_xpixel;
 	unsigned short ws_ypixel;
 };
+#define FIOASYNC 0x5452

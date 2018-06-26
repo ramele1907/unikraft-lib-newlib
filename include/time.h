@@ -41,6 +41,8 @@
  * such as nanosleep
  */
 #define _POSIX_TIMERS 1
+#define CLOCK_MONOTONIC 2
+
 #include_next <time.h>
 
 #endif /* NEWLIBGLUE_TIME_H */

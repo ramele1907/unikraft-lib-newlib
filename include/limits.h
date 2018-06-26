@@ -29,6 +29,9 @@
 
 #include <uk/arch/limits.h>
 
+#define IOV_MAX			1024
+#define SCM_RIGHTS  0x01
+
 #define CHAR_BIT        8
 
 #define SCHAR_MAX       0x7f
